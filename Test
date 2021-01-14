@@ -1,1 +1,35 @@
 //comment
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+public class test {
+
+	public static void main(String[] args) {
+		
+		Member m = new Member();
+		m.setName("mohammad");
+		
+		Address add1 = new Address();
+		add1.setAddress("city01");
+		
+		Address add2 = new Address();
+		add2.setAddress("city02");
+		
+		m.getAddress().add(add1);
+		m.getAddress().add(add2);
+		
+		
+		add1.setMembers(m);
+		add2.setMembers(m);
+		
+		SessionFactory sf = new Configuration().configure("Connection.xml").buildSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		
+		session.save(m);
+		
+		session.getTransaction().commit();
+		session.close();
+	}
+}
